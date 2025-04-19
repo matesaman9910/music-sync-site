@@ -33,7 +33,14 @@ function App() {
     }
   }, [playerReady, playerLoaded]);
 
-  const isValidUrl = (link) => link.includes('youtube.com') || link.includes('youtu.be');
+  const isValidUrl = (link) => {
+    try {
+      const { hostname } = new URL(link);
+      return hostname === 'youtube.com' || hostname === 'www.youtube.com' || hostname === 'youtu.be';
+    } catch {
+      return false; // Invalid URL
+    }
+  };
 
   const addSong = () => {
     if (!isValidUrl(url)) return alert("❌ Only YouTube links allowed.");
